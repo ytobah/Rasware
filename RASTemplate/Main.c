@@ -5,7 +5,6 @@
 
 // Blink the LED to show we're on
 tBoolean blink_on = true;
-tSPI SpiMod;
 tSPI * SpiPt;
 uint32_t * SendPt;
 uint32_t * RecPt;
@@ -13,7 +12,6 @@ uint32_t SendLength;
 uint32_t RecLength;
 float WaitTime;
 
-tSPI rSpiMod;
 tSPI * rSpiPt;
 uint32_t * rSendPt;
 uint32_t * rRecPt;
@@ -25,7 +23,7 @@ void blink(void) {
     blink_on = !blink_on;
 }
 
-int ch=0;
+char ch=0;
 
 // The 'main' function is the entry point of the program
 int main(void) {
@@ -40,8 +38,8 @@ int main(void) {
     while (1) {
         // Runtime code can go here
     while (ch =0)
-    ch = Getc
-    *SendPt = ch;
+    ch = Getc();
+    *SendPt = (int) ch;
     }
     SPIRequest(SpiPt, PIN_A3, SendPt, SendLength, RecPt, RecLength, 
 WaitTime);
