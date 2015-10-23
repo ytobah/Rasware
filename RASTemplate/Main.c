@@ -33,11 +33,11 @@ int main(void) {
                             false);
     Printf("Hello");
     rSpiPt =  InitializeSPI(PIN_F2, PIN_F1, PIN_F0, 100, 16, true, 
-                            false);
+                           false);
 
     while (1) {
         // Runtime code can go here
-    while (ch =0)
+    while (ch =0){
     ch = Getc();
     *SendPt = (int) ch;
     }
@@ -50,4 +50,5 @@ WaitTime);
     Printf("%s",  rRecPt);
 
 ch = 0;
+}
 }
