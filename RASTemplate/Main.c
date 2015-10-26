@@ -11,7 +11,6 @@ uint32_t * RecPt;
 uint32_t SendLength;
 uint32_t RecLength;
 float WaitTime;
-
 tSPI * rSpiPt;
 uint32_t * rSendPt;
 uint32_t * rRecPt;
@@ -36,19 +35,21 @@ int main(void) {
                            false);
 
     while (1) {
+   // Printf("Hello ");
+
         // Runtime code can go here
-    while (ch =0){
+   while (ch == 0){
     ch = Getc();
-    *SendPt = (int) ch;
-    }
-    SPIRequest(SpiPt, PIN_A3, SendPt, SendLength, RecPt, RecLength, 
-WaitTime);
+   *SendPt = (int) ch;
+  }
+   // SPIRequest(SpiPt, PIN_A3, SendPt, SendLength, RecPt, RecLength, 
+//WaitTime);
+   
+  //  SPIRequest(rSpiPt, PIN_A6, rSendPt, rSendLength, rRecPt, 
+//rRecLengt, WaitTime);
 
-    SPIRequest(rSpiPt, PIN_A6, rSendPt, rSendLength, rRecPt, rRecLength, 
-WaitTime);
-
-    Printf("%s",  rRecPt);
-
+    Printf("%c\n", ch);
+//Wait(2);
 ch = 0;
 }
 }
