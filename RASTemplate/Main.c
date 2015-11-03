@@ -60,12 +60,14 @@ SetPin(PIN_B2, false);
 RecLength, WaitTime);
    Printf("%c Again!!\n",ch);
    if (Check){
-   Printf("True");
+   Printf("True\n");
     }
-  // SPIRequest(rSpiPt, PIN_B7, rSendPt, rSendLength, rRecPt, 
-  // rRecLength, WaitTime);
+   SPIRequestUS(rSpiPt, PIN_B7, rSendPt, rSendLength, rRecPt, 
+   rRecLength, WaitTime);
 
     Printf("%c", ch);
+    ch = *rRecPt;
+    Printf("%c\n", ch);
 //Wait(2);
 ch = 0;
 }
