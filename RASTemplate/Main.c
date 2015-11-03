@@ -14,15 +14,15 @@ uint32_t rTestD;
 uint32_t rTestD2;
 uint32_t * SendPt = &TestData;
 uint32_t * RecPt = &TestData2;
-uint32_t SendLength;
-uint32_t RecLength;
+uint32_t SendLength = 1;
+uint32_t RecLength = 1;
 float WaitTime = 0.5;
 tSPI * rSpiPt; //= &rspitest;
 uint32_t * rSendPt = &rTestD;
 uint32_t * rRecPt = &rTestD2;
-uint32_t rSendLength;
-uint32_t rRecLength;
-
+uint32_t rSendLength = 1;
+uint32_t rRecLength = 1;
+tBoolean Check = false;
 void blink(void) {
     SetPin(PIN_F3, blink_on);
     blink_on = !blink_on;
@@ -56,12 +56,14 @@ SetPin(PIN_B2, false);
 }
    Printf("%c\n", ch);
 
-  SPIRequest(SpiPt, PIN_A3, SendPt, SendLength, RecPt, RecLength, 
-  WaitTime);
+  Check = SPIRequestUS(SpiPt, PIN_A3, SendPt, SendLength, RecPt, 
+RecLength, WaitTime);
    Printf("%c Again!!\n",ch);
-
-   SPIRequest(rSpiPt, PIN_B7, rSendPt, rSendLength, rRecPt, 
-   rRecLength, WaitTime);
+   if (Check){
+   Printf("True");
+    }
+  // SPIRequest(rSpiPt, PIN_B7, rSendPt, rSendLength, rRecPt, 
+  // rRecLength, WaitTime);
 
     Printf("%c", ch);
 //Wait(2);
