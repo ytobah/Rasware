@@ -41,26 +41,34 @@ int main(void) {
     // Initialization code can go here
     InitializeGPIO();
     CallEvery(blink, 0, 0.5);
-    rSpiPt =  InitializeSPI(PIN_A2, PIN_A5, PIN_A4, 100, 8, false, 
+SetPin(PIN_B7, true);
+SetPin(PIN_A3, true);
+
+    SpiPt =  InitializeSPI(PIN_A2, PIN_A5, PIN_A4, 100, 8, false, 
 false); //Clock, mosi, miso, frequency, bitsPerFrame(?), 
 //clockPolarity(?), phase (?)
     *SendPt= 0x20;  //Write Command, Config for Send
-    *(SendPt+1) = 0x82;
-    SPIRequestUS(rSpiPt, PIN_B7, SendPt, SendLength, RecPt, RecLength, 
+    *(SendPt+1) = 0x7E;
+SetPin(PIN_A3, false);
+    SPIRequestUS(SpiPt, PIN_B7, SendPt, SendLength, RecPt, RecLength, 
 WaitTime);
+SetPin(PIN_A3, true);
+
 
     Printf("Hello\nIs it me you're looking for?\n");
   //  Wait(5);
-    SpiPt =  InitializeSPI(PIN_F2, PIN_F1, PIN_F0, 100, 8, false, 
+    rSpiPt =  InitializeSPI(PIN_F2, PIN_F1, PIN_F0, 100, 8, false, 
 false);
     *SendPt=0x20;  //Write to Config Reg, Config for Recieve
-    *(SendPt+1) = 0x83;
-    SPIRequestUS(SpiPt, PIN_A3, SendPt, 2, RecPt, 2, WaitTime);
+    *(SendPt+1) = 0x7F;
+SetPin(PIN_B7, false);
+    SPIRequestUS(rSpiPt, PIN_A3, SendPt, 2, RecPt, 2, WaitTime);
     Printf("Hello Again\n");
+SetPin(PIN_B7, true);
 
 SetPin(PIN_A7, true); //Manually set CE pins to receive/transmit
 SetPin(PIN_B2, false );
-
+//CSL
 
     while (1) {
    // Printf("Hello ");
@@ -85,12 +93,33 @@ SetPin(PIN_B2, false );
 //   ch = *(MiniPt+2);
   // Printf("%c\n", ch);
 
+SetPin(PIN_A3, false);
 
-   Check = SPIRequestUS(rSpiPt, PIN_B7, SendPt, 2, RecPt, 
+   Check = SPIRequestUS(SpiPt, PIN_B7, SendPt, 2, RecPt, 
   2, WaitTime);
+  SetPin(PIN_A3, true);
+
+    *SendPt = 0x17;
+    *(SendPt +1) = 0x55;
+SetPin(PIN_A3, false);
+
+    SPIRequestUS(SpiPt, PIN_B7, SendPt, 2, RecPt, 2, WaitTime);
+  ch = *(RecPt + 1);
+SetPin(PIN_A3, true);
+
+  Printf("%X Is the FIFO Status Correct?\n",ch);
   SetPin(PIN_B2, true);
-   WaitUS(15);
+   WaitUS(100);
   SetPin(PIN_B2, false);
+
+*SendPt= 0x17;
+*(SendPt+1) = 0x55;
+SetPin(PIN_A3, false);
+    SPIRequestUS(SpiPt, PIN_B7, SendPt, 2, RecPt, 2, WaitTime);
+SetPin(PIN_A3, true);
+  ch = *(RecPt + 1);
+  Printf("%X Is the FIFO Status Correct?\n",ch);
+
 
   // Printf("%c Again!!\n",ch);
    if (Check){
@@ -101,7 +130,12 @@ SetPin(PIN_B2, false );
    *SendPt = 0x61; //8320;      //Write Command, Config for Receive  
                                // ReceiveCommand, and Dummy Variable
    *(SendPt + 1) = 0x55;
-   SPIRequestUS(SpiPt, PIN_A3, SendPt, 3, RecPt, 3, WaitTime);
+   *(SendPt + 2) = 0x55;
+SetPin(PIN_B7, false);
+
+   SPIRequestUS(rSpiPt, PIN_A3, SendPt, 3, RecPt, 3, WaitTime);
+SetPin(PIN_B7, true);
+
    SetPin(PIN_A7, true);   //Enable Receiver for next batch
    Printf("%c\n", ch);
   MiniPt =*(RecPt+1);
@@ -126,7 +160,7 @@ SetPin(PIN_B2, false );
         //                   SetPin(PIN_F0, false);
           //                 SetPin(PIN_F0, false);
             //              }
-Wait(100);
+//Wait(100);
 ch = 0;
 }
 }
